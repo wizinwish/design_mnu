@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>야구 규칙 도우미 | 초보자를 위한 쉬운 해설</title>
+  <title>야구 규칙 도우미 | KBO 공식 규칙 기반 해설</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -15,11 +15,8 @@
       --border-color: #334155;
       --accent-green: #10b981;
       --accent-green-hover: #059669;
-      --accent-baseball: #f87171;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --bubble-user: #059669;
-      --bubble-bot: #1e293b;
       --font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
@@ -41,7 +38,6 @@
       overflow: hidden;
     }
 
-    /* 전체 앱 컨테이너 */
     #chat-app {
       width: 100%;
       max-width: 768px;
@@ -55,7 +51,6 @@
       box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
     }
 
-    /* 상단 헤더 */
     #chat-header {
       display: flex;
       align-items: center;
@@ -123,18 +118,16 @@
       transform: translateY(0);
     }
 
-    /* 대화창 스크롤 영역 */
     #chat-messages {
       flex: 1;
       overflow-y: auto;
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.1rem;
       scroll-behavior: smooth;
     }
 
-    /* 웰컴 인트로 */
     #welcome-card {
       background: rgba(30, 41, 59, 0.6);
       border: 1px solid var(--border-color);
@@ -194,7 +187,6 @@
       transform: scale(1.02);
     }
 
-    /* 말풍선 공통 */
     .message-row {
       display: flex;
       width: 100%;
@@ -229,8 +221,18 @@
       border: 1px solid var(--border-color);
     }
 
-    .bubble {
+    .message-content-wrap {
+      display: flex;
+      flex-direction: column;
       max-width: 80%;
+      gap: 0.35rem;
+    }
+
+    .message-row.user .message-content-wrap {
+      align-items: flex-end;
+    }
+
+    .bubble {
       padding: 0.8rem 1rem;
       border-radius: 14px;
       font-size: 0.92rem;
@@ -254,7 +256,22 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
-    /* 로딩 인디케이터 */
+    /* 참고 출처 안내 영역 (작은 글씨) */
+    .message-source-info {
+      font-size: 0.74rem;
+      color: #94a3b8;
+      padding: 0 0.3rem;
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .message-source-info::before {
+      content: "📖";
+      font-size: 0.72rem;
+    }
+
     .typing-indicator {
       display: inline-flex;
       align-items: center;
@@ -278,7 +295,6 @@
       40% { transform: scale(1); opacity: 1; }
     }
 
-    /* 하단 입력창 영역 */
     #chat-input-container {
       padding: 1rem 1.25rem;
       background-color: rgba(30, 41, 59, 0.95);
@@ -364,7 +380,7 @@
         border-left: none;
         border-right: none;
       }
-      .bubble {
+      .message-content-wrap {
         max-width: 88%;
       }
       .input-hint {
@@ -375,13 +391,12 @@
 </head>
 <body>
   <div id="chat-app">
-    <!-- 상단 헤더 -->
     <header id="chat-header">
       <div class="header-info">
         <div class="header-logo" aria-hidden="true">⚾</div>
         <div class="header-text">
           <h1>야구 규칙 도우미</h1>
-          <p>초보자도 알기 쉬운 야구 룰 챗봇</p>
+          <p>KBO 공식 규칙 기반 쉬운 해설</p>
         </div>
       </div>
       <button id="new-chat-btn" type="button" title="대화 내용 초기화">
@@ -395,26 +410,24 @@
       </button>
     </header>
 
-    <!-- 대화 영역 -->
     <main id="chat-messages">
       <div id="welcome-card">
         <div class="baseball-icon">⚾</div>
-        <h2>처음 보는 야구, 무엇이든 물어보세요!</h2>
-        <p>스트라이크, 볼넷, 인필드플라이 등 헷갈리는 야구 규칙을 3~5문장으로 알기 쉽게 풀어드립니다.</p>
+        <h2>KBO 공식 규칙에 기반하여 답변해 드려요!</h2>
+        <p>인필드플라이, 보크, 낫아웃 등 복잡한 규정을 관련 조항 출처와 함께 알기 쉽게 풀어드립니다.</p>
         <div class="quick-chips">
-          <button class="chip-btn" type="button" data-question="스트라이크존이 뭐야?">"스트라이크존이 뭐야?"</button>
-          <button class="chip-btn" type="button" data-question="홈런과 안타의 차이는?">"홈런과 안타의 차이는?"</button>
-          <button class="chip-btn" type="button" data-question="포스아웃과 태그아웃 차이 알려줘">"포스아웃과 태그아웃 차이"</button>
+          <button class="chip-btn" type="button" data-question="인필드 플라이 규칙과 성립 조건을 쉽게 설명해줘">"인필드 플라이 규칙"</button>
+          <button class="chip-btn" type="button" data-question="투수의 보크는 어떤 경우에 선언돼?">"투수 보크 판정"</button>
+          <button class="chip-btn" type="button" data-question="삼진 낫아웃은 왜 생기는 거야?">"삼진 낫아웃 규칙"</button>
         </div>
       </div>
     </main>
 
-    <!-- 하단 입력 영역 -->
     <footer id="chat-input-container">
       <form id="chat-form">
         <textarea
           id="message-input"
-          placeholder="야구 규칙에 대해 궁금한 점을 입력하세요..."
+          placeholder="궁금한 야구 규칙이나 상황을 질문해보세요..."
           rows="1"
         ></textarea>
         <button id="send-btn" type="submit" title="전송" disabled>
@@ -428,7 +441,6 @@
   </div>
 
   <script>
-    // 브라우저 메모리에만 유지되는 대화 기록 목록 (새로고침 또는 '새 대화' 버튼 클릭 시 초기화)
     let conversationHistory = [];
     let isRequestInProgress = false;
 
@@ -461,8 +473,31 @@
       }
     });
 
+    // 출처 목록을 "참고: kbo_rules_2026.pdf p.45, p.46" 형태로 포맷팅
+    function formatSourcesText(sources) {
+      if (!sources || sources.length === 0) return "";
+
+      const filePagesMap = {};
+      sources.forEach((item) => {
+        if (!filePagesMap[item.source]) {
+          filePagesMap[item.source] = [];
+        }
+        if (!filePagesMap[item.source].includes(item.page)) {
+          filePagesMap[item.source].push(item.page);
+        }
+      });
+
+      const parts = Object.entries(filePagesMap).map(([file, pages]) => {
+        pages.sort((a, b) => a - b);
+        const pageStr = pages.map((p) => `p.${p}`).join(", ");
+        return `${file} ${pageStr}`;
+      });
+
+      return `참고: ${parts.join(" / ")}`;
+    }
+
     // 메시지 DOM 추가 함수 (XSS 방지를 위해 무조건 textContent 사용)
-    function appendMessage(role, text) {
+    function appendMessage(role, text, sources = []) {
       const row = document.createElement("div");
       row.className = `message-row ${role}`;
 
@@ -473,11 +508,23 @@
         row.appendChild(avatar);
       }
 
+      const contentWrap = document.createElement("div");
+      contentWrap.className = "message-content-wrap";
+
       const bubble = document.createElement("div");
       bubble.className = "bubble";
-      bubble.textContent = text; // innerHTML 대신 textContent 사용으로 XSS 방지
-      row.appendChild(bubble);
+      bubble.textContent = text;
+      contentWrap.appendChild(bubble);
 
+      // 출처 정보가 있을 경우 말풍선 하단에 작은 글씨로 안전하게 렌더링
+      if (role === "assistant" && sources && sources.length > 0) {
+        const sourceInfo = document.createElement("div");
+        sourceInfo.className = "message-source-info";
+        sourceInfo.textContent = formatSourcesText(sources);
+        contentWrap.appendChild(sourceInfo);
+      }
+
+      row.appendChild(contentWrap);
       chatMessages.appendChild(row);
       chatMessages.scrollTop = chatMessages.scrollHeight;
       return row;
@@ -494,6 +541,9 @@
       avatar.textContent = "⚾";
       row.appendChild(avatar);
 
+      const contentWrap = document.createElement("div");
+      contentWrap.className = "message-content-wrap";
+
       const bubble = document.createElement("div");
       bubble.className = "bubble";
       const indicator = document.createElement("div");
@@ -504,7 +554,8 @@
         indicator.appendChild(dot);
       }
       bubble.appendChild(indicator);
-      row.appendChild(bubble);
+      contentWrap.appendChild(bubble);
+      row.appendChild(contentWrap);
 
       chatMessages.appendChild(row);
       chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -529,11 +580,9 @@
       appendMessage("user", userText);
       conversationHistory.push({ role: "user", content: userText });
 
-      // 입력창 초기화
       messageInput.value = "";
       messageInput.style.height = "auto";
 
-      // AI 답변 대기 표시
       showTypingIndicator();
 
       try {
@@ -552,8 +601,9 @@
         removeTypingIndicator();
 
         const botReply = data.reply || "응답이 비어 있습니다.";
-        appendMessage("assistant", botReply);
-        // 어시스턴트 답변도 대화 기록에 누적하여 문맥 유지
+        const sources = data.sources || [];
+        appendMessage("assistant", botReply, sources);
+
         conversationHistory.push({ role: "assistant", content: botReply });
       } catch (err) {
         removeTypingIndicator();
