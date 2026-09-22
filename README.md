@@ -1,14 +1,3 @@
-## 프로젝트 README 작성 예시
-
-### 프로젝트 소개
-만들고 싶은 이유 & 예상 사용자 : 아직 미정
-
-### 구현해 보고 싶은 기능
-
-### 참고자료 (서비스나 프로젝트)
-
-### 현재 진행 상태: %
-
 # 텀프로젝트1(챗봇제작)
 
 ## 프로젝트 소개
@@ -24,12 +13,17 @@
 - [ ] 복잡한 야구 용어 설명(기록과 관계된)
 
 ## 참고자료
-- [KBO 공식 야구자료들(공식야구규칙, 규정 자료, 리그 규정 등)] (https://www.koreabaseball.com/Kbo/Board/Ebook/EbookPublication.aspx)
+- [KBO 공식 야구자료들(공식야구규칙, 규정 자료, 리그 규정 등)](https://www.koreabaseball.com/Kbo/Board/Ebook/EbookPublication.aspx)
 
 ## 실행 방법
+```bash
+    pip install -r requirements.txt
+    uvicorn main:app --reload
+```
   
 ## 현재 진행 상황: 50%
-
+<br>
+---
 # 주차별 기록
 
 ## 1주차
