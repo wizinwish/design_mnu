@@ -9,16 +9,16 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def split_text_into_chunks(
-    text: str, source: str, page: int, chunk_size: int = 400, overlap: int = 50
+    text: str, source: str, page: int, chunk_size: int = 650, overlap: int = 100
 ) -> list[dict[str, Any]]:
-    """페이지 텍스트를 300~500자 크기의 청크로 분할하고 메타데이터를 추가합니다.
+    """페이지 텍스트를 500~800자 크기(겹침 100자)의 청크로 분할하고 메타데이터를 추가합니다.
 
     Args:
         text: 분할할 원본 페이지 텍스트
         source: 출처 PDF 파일명
         page: PDF 페이지 번호 (1-indexed)
-        chunk_size: 목표 청크 글자 수
-        overlap: 청크 간 중첩 글자 수
+        chunk_size: 목표 청크 글자 수 (기본 650자)
+        overlap: 청크 간 중첩 글자 수 (기본 100자)
 
     Returns:
         list[dict[str, Any]]: 텍스트와 출처(파일명, 페이지)를 담은 청크 목록
@@ -27,15 +27,15 @@ def split_text_into_chunks(
     if not clean_text:
         return []
 
-    # 페이지 텍스트가 500자 이하이면 단일 청크로 유지
-    if len(clean_text) <= 500:
+    # 단일 페이지 텍스트가 청크 크기 이하이면 단일 청크로 유지
+    if len(clean_text) <= chunk_size:
         return [{"text": clean_text, "source": source, "page": page}]
 
     chunks = []
     step = chunk_size - overlap
     for i in range(0, len(clean_text), step):
         chunk_str = clean_text[i : i + chunk_size]
-        if len(chunk_str) < 80 and chunks:
+        if len(chunk_str) < 100 and chunks:
             # 너무 짧은 마지막 조각은 제외
             continue
         chunks.append({"text": chunk_str, "source": source, "page": page})
